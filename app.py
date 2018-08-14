@@ -1,6 +1,5 @@
 from flask import Flask
-from flask_socketio import SocketIO, send, emit
-import json
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'very-secret-key'
@@ -33,14 +32,13 @@ def test_disconnect():
 @socketio.on('message')
 def handle_message(msg):
     print('Message: ' + msg)
-    # send(msg, broadcast=True)
 
     if msg in media:
-        emit('message', media[msg]['path'], broadcast=True)
-        emit('mediaDuration', media[msg], broadcast=True)
+        emit('guest', media[msg]['path'], broadcast=True)
+        emit('crew', media[msg], broadcast=True)
 
     if msg == 'stop':
-        emit('message', 'stop', broadcast=True)
+        emit('guest', 'stop', broadcast=True)
 
     if msg == 'stream':
         pass
