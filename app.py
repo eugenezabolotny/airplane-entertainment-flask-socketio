@@ -1,9 +1,17 @@
 from flask import Flask
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, allow_headers='Content-Type')
 app.config['SECRET_KEY'] = 'very-secret-key'
 socketio = SocketIO(app)
+
+
+@app.route('/')
+def hello():
+    return 'Hello\n'
+
 
 media = {
     'play safety message': {
@@ -45,4 +53,4 @@ def handle_message(msg):
 
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app, port=5000)
